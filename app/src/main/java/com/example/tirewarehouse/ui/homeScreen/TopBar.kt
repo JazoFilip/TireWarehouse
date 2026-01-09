@@ -22,7 +22,7 @@ fun  TopBar(
     TopAppBar(
         title = {
             Text(
-                text = "Autodiskont",
+                text = "Tire Warehouse",
                 fontWeight = FontWeight.Bold
                 )
 

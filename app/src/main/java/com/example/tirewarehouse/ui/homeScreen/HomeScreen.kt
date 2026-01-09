@@ -52,7 +52,7 @@ fun HomeScreen(
                     .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                SummaryCard(R.drawable.tire, totalTires.toString(), "Total in stock")
+                SummaryCard(R.drawable.wheel, totalTires.toString(), "Total in stock")
                 Text("Inventory", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 InventoryCard(SkyLightBlue,R.drawable.car, "No. of car tires", totalCarTires.toString())
                 InventoryCard(Yellow50,R.drawable.tractor, "No. of tractor tires", totalTractorTires.toString())

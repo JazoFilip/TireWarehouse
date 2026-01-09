@@ -14,6 +14,10 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.Icon
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -27,22 +31,25 @@ fun BottomNavigationBar(){
     NavigationBar(
         containerColor = Yellow100
     ) {
+
+        var currentActiveButton by remember { mutableStateOf(0) }
+
         NavigationBarItem(
-            selected = true,
-            onClick = { },
+            selected = currentActiveButton == 0,
+            onClick = { currentActiveButton = 0},
             icon = { Icon(Icons.Default.Home,"home")},
             label = { Text("Home") }
         )
         NavigationBarItem(
-            selected = false,
-            onClick = {},
+            selected = currentActiveButton == 1,
+            onClick = {currentActiveButton = 1},
             icon = {
                 Box(
                     modifier = Modifier.size(24.dp),
                     contentAlignment = Alignment.Center
                  ) {
                     Image(
-                        painter = painterResource(R.drawable.tire),
+                        painter = painterResource(R.drawable.wheel),
                         contentDescription = "Inventory",
                         modifier = Modifier.fillMaxSize()
                     )
@@ -51,8 +58,8 @@ fun BottomNavigationBar(){
             label = { Text("Inventory")}
         )
         NavigationBarItem(
-            selected = false,
-            onClick = {},
+            selected = currentActiveButton == 2,
+            onClick = {currentActiveButton = 2},
             icon = {Icon(Icons.Default.Add,"AddTires")},
             label = {Text("AddTires")}
         )
