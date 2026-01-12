@@ -73,7 +73,9 @@ fun TireCard(
                             modifier = Modifier.fillMaxSize()
                         )
                     }
+
                 }
+                Text(tire.location, fontSize = 20.sp)
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(tire.quantity.toString(), fontSize = 20.sp)

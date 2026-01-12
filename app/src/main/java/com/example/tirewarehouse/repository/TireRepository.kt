@@ -30,27 +30,27 @@ class TireRepository{
 
     }
 
-    fun addTire(tire: Tire){
+    fun addTire(tire: Tire) {
         val doc = tiresRef.document()
         doc.set(tire.copy(id = doc.id))
     }
 
-    fun updateTire(tire: Tire){
-        tiresRef.document(tire.id).set(tire)
-    }
+    fun updateTireQuantity(tireId: String, amount: Int) {
+        val docRef = tiresRef.document(tireId)
 
-    fun removeTire(tireId: String, amount: Int){
-        val doc = tiresRef.document(tireId)
-
-        doc.get().addOnSuccessListener { snapshot ->
+        db.runTransaction { transaction ->
+            val snapshot = transaction.get(docRef)
             val tire = snapshot.toObject(Tire::class.java)
-            if(tire != null){
-                var newQuantity = tire.quantity - amount
-                if(newQuantity < 0){
-                    newQuantity = 0
-                }
-                doc.update("quantity",newQuantity)
+                ?: throw IllegalStateException("Tire not found")
+
+            val newQuantity = (tire.quantity + amount)
+
+            if(newQuantity <= 0){
+                transaction.delete(docRef)
+            }else{
+                transaction.update(docRef, "quantity", newQuantity)
             }
+
         }
     }
 }

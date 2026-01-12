@@ -15,6 +15,7 @@ import com.example.tirewarehouse.viewModel.TireViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.tirewarehouse.ui.addTireScreen.AddTireScreen
 import com.example.tirewarehouse.ui.theme.Yellow100
 
 @Composable
@@ -49,6 +50,10 @@ fun AppNavigation(
             ) { backStackEntry ->
                 val type = backStackEntry.arguments?.getString("type")
                 InventoryScreen(viewModel = viewModel, tireType = type)
+                viewModel.cleanSetValues()
+            }
+            composable("addTire"){
+                AddTireScreen(viewModel)
             }
         }
     }

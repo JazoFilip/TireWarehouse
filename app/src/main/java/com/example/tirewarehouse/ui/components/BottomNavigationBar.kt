@@ -75,8 +75,12 @@ fun BottomNavigationBar(
             label = { Text("Inventory")}
         )
         NavigationBarItem(
-            selected = currentActiveButton == 2,
-            onClick = {currentActiveButton = 2},
+            selected = currentRoute == "addTire",
+            onClick = {
+                navController.navigate("addTire"){
+                    launchSingleTop = true
+                }
+            },
             icon = {Icon(Icons.Default.Add,"AddTires")},
             label = {Text("AddTires")}
         )

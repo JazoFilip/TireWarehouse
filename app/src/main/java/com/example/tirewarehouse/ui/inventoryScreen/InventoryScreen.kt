@@ -24,6 +24,11 @@ fun InventoryScreen(
         tireType: String? = null
 ){
     val tires by viewModel.getFilteredTires(tireType).observeAsState(emptyList())
+    val selectedWidth by viewModel.Width.observeAsState()
+    val selectedHeight by viewModel.Height.observeAsState()
+    val selectedDiameter by viewModel.Diameter.observeAsState()
+
+
 
     Surface(
         shape = RoundedCornerShape(24.dp),
@@ -38,16 +43,19 @@ fun InventoryScreen(
             ){
                 DimensionInput(
                     label = "Width",
+                    value = selectedWidth,
                     onValueChange = {viewModel.setWidth(it) },
                     modifier = Modifier.weight(1f)
                 )
                 DimensionInput(
                     label = "Height",
+                    value = selectedHeight,
                     onValueChange = {viewModel.setHeight(it) },
                     modifier = Modifier.weight(1f)
                 )
                 DimensionInput(
                     label = "Diameter",
+                    value = selectedDiameter,
                     onValueChange = { viewModel.setDiameter(it) },
                     modifier = Modifier.weight(1f)
                 )
