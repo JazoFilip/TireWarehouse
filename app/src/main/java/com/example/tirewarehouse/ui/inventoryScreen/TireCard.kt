@@ -10,76 +10,81 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tirewarehouse.R
+import com.example.tirewarehouse.data.Tire
+import com.example.tirewarehouse.data.enums.Season
+import com.example.tirewarehouse.data.enums.TireType
 import com.example.tirewarehouse.ui.theme.SkyLightBlue
 
-@Preview
 @Composable
 fun TireCard(
-
-){
+    tire: Tire
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = SkyLightBlue)
-    ){
+    ) {
         Row(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column (
+            Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Row(
-
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Box(
                         modifier = Modifier.size(24.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Image(
-                            painter = painterResource(R.drawable.tire),
+                            painter = painterResource(TireType.fromString(tire.type).imageRes),
                             contentDescription = "Inventory",
                             modifier = Modifier.fillMaxSize()
                         )
                     }
 
-                    Text("255/30R20", fontSize = 20.sp)
+                    Text("${tire.width.clean()}/${tire.height.clean()}R${tire.diameter.clean()}", fontSize = 20.sp)
                 }
 
                 Row(
-
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
 
-                    Text("Michelin", fontSize = 20.sp)
+                    Text(tire.brand, fontSize = 20.sp)
 
                     Box(
                         modifier = Modifier.size(24.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Image(
-                            painter = painterResource(R.drawable.sun),
-                            contentDescription = "sun",
+                            painter = painterResource(Season.FromString(tire.season).imageRes),
+                            contentDescription = "season",
                             modifier = Modifier.fillMaxSize()
                         )
                     }
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
-            Text("12", fontSize = 20.sp)
+            Text(tire.quantity.toString(), fontSize = 20.sp)
         }
     }
 }
+    fun Float.clean(): String {
+        if (this % 1.0 == 0.0) {
+            return this.toInt().toString()
+        }
+        return this.toString()
+    }
+
+

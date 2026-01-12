@@ -2,45 +2,68 @@ package com.example.tirewarehouse.ui.inventoryScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.tirewarehouse.ui.homeScreen.BottomNavigationBar
-import com.example.tirewarehouse.ui.homeScreen.TopBar
-import com.example.tirewarehouse.ui.theme.Yellow100
+import com.example.tirewarehouse.viewModel.TireViewModel
+import androidx.compose.foundation.lazy.items
 
-@Preview
+
 @Composable
 fun InventoryScreen(
-
+        viewModel: TireViewModel,
+        tireType: String? = null
 ){
-    Scaffold(
-        containerColor = Yellow100,
-        topBar = {TopBar()},
-        bottomBar = {BottomNavigationBar()}
+    val tires by viewModel.getFilteredTires(tireType).observeAsState(emptyList())
 
-    ) { padding ->
-        Surface(
-            modifier = Modifier.padding(padding),
-            shape = RoundedCornerShape(24.dp),
-            color = Color.White
+    Surface(
+        shape = RoundedCornerShape(24.dp),
+        color = Color.White
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState()),
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth()
+            ){
+                DimensionInput(
+                    label = "Width",
+                    onValueChange = {viewModel.setWidth(it) },
+                    modifier = Modifier.weight(1f)
+                )
+                DimensionInput(
+                    label = "Height",
+                    onValueChange = {viewModel.setHeight(it) },
+                    modifier = Modifier.weight(1f)
+                )
+                DimensionInput(
+                    label = "Diameter",
+                    onValueChange = { viewModel.setDiameter(it) },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+
+            LazyColumn(
+                modifier = Modifier.padding(top = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                TireCard()
-                TireCard()
+                items(
+                    items = tires,
+                    key = { it.id }
+                ) { tire ->
+                    TireCard(tire)
+                }
             }
         }
     }

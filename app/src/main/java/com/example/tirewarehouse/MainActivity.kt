@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.tirewarehouse.ui.homeScreen.HomeScreen
+import com.example.tirewarehouse.ui.navigation.AppNavigation
 import com.example.tirewarehouse.ui.theme.TireWarehouseTheme
 import com.example.tirewarehouse.viewModel.TireViewModel
 import kotlin.getValue
@@ -22,9 +23,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val viewModel by viewModels<TireViewModel>()
         setContent {
-            TireWarehouseTheme {
-                    HomeScreen(viewModel)
-                }
+            AppNavigation(viewModel)
             }
         }
     }

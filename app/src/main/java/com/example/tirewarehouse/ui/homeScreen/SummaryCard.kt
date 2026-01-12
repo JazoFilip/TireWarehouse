@@ -13,9 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.tirewarehouse.ui.theme.Yellow50
 
 @Composable
@@ -33,8 +35,8 @@ fun SummaryCard(image: Int,title: String,subTitle: String,){
                 Modifier.size(40.dp)
             )
 
-            Text(title)
-            Text(subTitle)
+            Text(title, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            Text(subTitle, fontWeight = FontWeight.Bold)
         }
     }
 }

@@ -24,40 +24,63 @@ import com.example.tirewarehouse.ui.theme.Yellow100
 import com.example.tirewarehouse.ui.theme.Yellow50
 import com.example.tirewarehouse.viewModel.TireViewModel
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.navigation.NavController
+import com.example.tirewarehouse.data.Tire
+import com.example.tirewarehouse.data.enums.TireType
 
 
 @Composable
 fun HomeScreen(
-    viewModel: TireViewModel
+    viewModel: TireViewModel,
+    navController: NavController
 ){
     val totalTires by viewModel.totalTires.observeAsState(0)
     val totalCarTires by viewModel.totalCarTires.observeAsState(0)
     val totalTractorTires by viewModel.totalTractorTires.observeAsState(0)
     val totalTruckTires by viewModel.totalTruckTires.observeAsState(0)
 
-    Scaffold(
-        containerColor = Yellow100,
-        topBar = {TopBar()},
-        bottomBar = {BottomNavigationBar()}
-
-    ) { padding ->
-        Surface(
-            modifier = Modifier.padding(padding),
-            shape = RoundedCornerShape(24.dp),
-            color = Color.White
+    Surface(
+        shape = RoundedCornerShape(24.dp),
+        color = Color.White
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                SummaryCard(R.drawable.wheel, totalTires.toString(), "Total in stock")
-                Text("Inventory", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                InventoryCard(SkyLightBlue,R.drawable.car, "No. of car tires", totalCarTires.toString())
-                InventoryCard(Yellow50,R.drawable.tractor, "No. of tractor tires", totalTractorTires.toString())
-                InventoryCard(Clear,R.drawable.truck, "No. of truck tires", totalTruckTires.toString())
-            }
+            SummaryCard(R.drawable.wheel, totalTires.toString(), "Total in stock")
+            Text("Inventory", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            InventoryCard(
+                SkyLightBlue,
+                R.drawable.car,
+                "No. of car tires",
+                totalCarTires.toString(),
+                {navController.navigate("inventory?type=${TireType.CAR.name}") {
+                    launchSingleTop = true
+                }
+                }
+            )
+            InventoryCard(
+                Yellow50,
+                R.drawable.tractor,
+                "No. of tractor tires",
+                totalTractorTires.toString(),
+                {navController.navigate("inventory?type=${TireType.TRACTOR.name}"){
+                    launchSingleTop = true
+                }
+                }
+            )
+            InventoryCard(
+                Clear,
+                R.drawable.truck,
+                "No. of truck tires",
+                totalTruckTires.toString(),
+                {navController.navigate("inventory?type=${TireType.TRUCK.name}"){
+                    launchSingleTop = true
+                }
+                }
+            )
         }
     }
 }

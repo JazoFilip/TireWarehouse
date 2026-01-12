@@ -27,17 +27,19 @@ import androidx.compose.ui.unit.sp
 import com.example.tirewarehouse.R
 import com.example.tirewarehouse.ui.theme.SkyLightBlue
 
-@Preview
 @Composable
 fun InventoryCard(
     color: Color = SkyLightBlue,
     image: Int = R.drawable.car,
     title: String = "No. of tires",
-    subtitle: String = "500"
+    subtitle: String = "500",
+    onClick: () -> Unit
+
 ){
     Card(
        colors = CardDefaults.cardColors(containerColor = color),
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        onClick = onClick
     ) {
         Row(
 
@@ -49,7 +51,7 @@ fun InventoryCard(
                 Text(title, fontWeight = FontWeight.Bold)
                 Text(subtitle, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                Button(
-                    onClick = {},
+                    onClick = onClick,
                     enabled = true,
                    colors = ButtonDefaults.buttonColors(containerColor = Color.White)
                 ) {

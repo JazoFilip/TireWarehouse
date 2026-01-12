@@ -1,4 +1,4 @@
-package com.example.tirewarehouse.ui.homeScreen
+package com.example.tirewarehouse.ui.components
 
 
 
@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,27 +22,44 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.tirewarehouse.R
 import com.example.tirewarehouse.ui.theme.Yellow100
 
 
 @Composable
-fun BottomNavigationBar(){
+fun BottomNavigationBar(
+    navController: NavController
+){
     NavigationBar(
         containerColor = Yellow100
     ) {
 
+        val currentRoute = navController
+            .currentBackStackEntryAsState()
+            .value?.destination?.route
+
         var currentActiveButton by remember { mutableStateOf(0) }
 
         NavigationBarItem(
-            selected = currentActiveButton == 0,
-            onClick = { currentActiveButton = 0},
-            icon = { Icon(Icons.Default.Home,"home")},
+            selected = currentRoute == "home",
+            onClick = {
+                navController.navigate("home"){
+                    popUpTo("home") { inclusive = true }
+                    launchSingleTop = true
+                }
+            },
+            icon = { Icon(  Icons.Default.Home,"home")},
             label = { Text("Home") }
         )
         NavigationBarItem(
-            selected = currentActiveButton == 1,
-            onClick = {currentActiveButton = 1},
+            selected = currentRoute == "inventory",
+            onClick = {
+                navController.navigate("inventory"){
+                    launchSingleTop = true
+                }
+            },
             icon = {
                 Box(
                     modifier = Modifier.size(24.dp),
