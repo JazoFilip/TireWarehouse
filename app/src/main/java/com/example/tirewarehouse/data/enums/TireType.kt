@@ -5,8 +5,8 @@ import com.example.tirewarehouse.R
 
 enum class TireType(@DrawableRes val imageRes: Int) {
     CAR(R.drawable.car_tire),
-    TRUCK(R.drawable.tractor_tire),
-    TRACTOR(R.drawable.truck_tire);
+    TRUCK(R.drawable.truck_tire),
+    TRACTOR(R.drawable.tractor_tire);
 
 
     companion object {

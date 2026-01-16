@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
@@ -40,7 +41,6 @@ fun BottomNavigationBar(
             .currentBackStackEntryAsState()
             .value?.destination?.route
 
-        var currentActiveButton by remember { mutableStateOf(0) }
 
         NavigationBarItem(
             selected = currentRoute == "home",
@@ -54,25 +54,23 @@ fun BottomNavigationBar(
             label = { Text("Home") }
         )
         NavigationBarItem(
-            selected = currentRoute == "inventory",
+            selected = currentRoute?.startsWith("inventory") == true,
             onClick = {
                 navController.navigate("inventory"){
                     launchSingleTop = true
                 }
             },
             icon = {
-                Box(
-                    modifier = Modifier.size(24.dp),
-                    contentAlignment = Alignment.Center
-                 ) {
-                    Image(
-                        painter = painterResource(R.drawable.wheel),
-                        contentDescription = "Inventory",
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
+                Icon(
+                    painter = painterResource(R.drawable.inventory_icon),
+                    contentDescription = "inventory",
+                    tint = if (currentRoute?.startsWith("inventory") == true)
+                        MaterialTheme.colorScheme.primary
+                    else
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                )
             },
-            label = { Text("Inventory")}
+            label = {Text("Inventory")}
         )
         NavigationBarItem(
             selected = currentRoute == "addTire",

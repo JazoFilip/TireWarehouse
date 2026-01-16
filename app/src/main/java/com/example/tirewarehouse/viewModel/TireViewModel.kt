@@ -19,12 +19,12 @@ class  TireViewModel() : ViewModel() {
     val tires: LiveData<List<Tire>> = repository.tires
 
     private val _type = MutableLiveData<TireType?>(null)
-    private val _width = MutableLiveData<Float?>(null)
-    private val _height = MutableLiveData<Float?>(null)
-    private val _diameter = MutableLiveData<Float?>(null)
+    private val _width = MutableLiveData<String?>(null)
+    private val _height = MutableLiveData<String?>(null)
+    private val _diameter = MutableLiveData<String?>(null)
     private val _season = MutableLiveData<Season?>(null)
     private val _brand = MutableLiveData<Brand?>(null)
-    private val _location = MutableLiveData<Location>(null)
+    private val _location = MutableLiveData<Location?>(null)
     private val _quantity = MutableLiveData<Int?>(null)
 
     val Type: LiveData<TireType?> = _type
@@ -32,14 +32,14 @@ class  TireViewModel() : ViewModel() {
     val Season: LiveData<Season?> = _season
     val Brand: LiveData<Brand?> = _brand
     val Location: LiveData<Location?> = _location
-    val Width: LiveData<Float?> = _width
-    val Height: LiveData<Float?> = _height
-    val Diameter: LiveData<Float?> = _diameter
+    val Width: LiveData<String?> = _width
+    val Height: LiveData<String?> = _height
+    val Diameter: LiveData<String?> = _diameter
 
     fun setType(value: TireType?) {_type.value = value}
-    fun setWidth(value: Float?) { _width.value = value }
-    fun setHeight(value: Float?) { _height.value = value }
-    fun setDiameter(value: Float?) { _diameter.value = value }
+    fun setWidth(value: String?) { _width.value = value }
+    fun setHeight(value: String?) { _height.value = value }
+    fun setDiameter(value: String?) { _diameter.value = value }
     fun setSeason(value: Season?) { _season.value = value }
     fun setBrand(value: Brand?) { _brand.value = value }
     fun setLocation(value: Location?) { _location.value = value }
@@ -51,9 +51,9 @@ class  TireViewModel() : ViewModel() {
 
             fun update() {
                 val list = tires.value ?: emptyList()
-                val w = _width.value
-                val h = _height.value
-                val d = _diameter.value
+                val w = _width.value?.toFloatOrNull()
+                val h = _height.value?.toFloatOrNull()
+                val d = _diameter.value?.toFloatOrNull()
 
                 value = list.filter { tire ->
                     (type == null || tire.type == type) &&
@@ -95,10 +95,14 @@ class  TireViewModel() : ViewModel() {
 
     private fun findMatchingTire(tires: List<Tire>): Tire? {
         return tires.firstOrNull {
+            val width = _width.value?.toFloatOrNull()
+            val height = _height.value?.toFloatOrNull() ?: 0f
+            val diameter = _diameter.value?.toFloatOrNull()
+
             it.type == _type.value?.name &&
-                    it.width == _width.value &&
-                    it.height == _height.value &&
-                    it.diameter == _diameter.value &&
+                    it.width == width &&
+                    it.height == height &&
+                    it.diameter == diameter &&
                     it.season == _season.value?.name &&
                     it.brand == _brand.value?.name &&
                     it.location == _location.value?.name
@@ -131,9 +135,9 @@ class  TireViewModel() : ViewModel() {
     }
     private fun buildTireFromState(): Tire? {
         val type = _type.value ?: return null
-        val width = _width.value ?: return null
-        val height = _height.value ?: 0f //tractor case
-        val diameter = _diameter.value ?: return null
+        val width = _width.value?.toFloatOrNull() ?: return null
+        val height = _height.value?.toFloatOrNull() ?: 0f //tractor case
+        val diameter = _diameter.value?.toFloatOrNull() ?: return null
         val season = _season.value ?: return null
         val brand = _brand.value ?: return null
         val location = _location.value ?: return null

@@ -54,7 +54,8 @@ fun TireCard(
                         )
                     }
 
-                    Text("${tire.width.clean()}/${tire.height.clean()}R${tire.diameter.clean()}", fontSize = 20.sp)
+                    Text(PrintTireDimensions(tire.width,tire.height,tire.diameter), fontSize = 20.sp)
+                    PrintTireDimensions(tire.width,tire.height,tire.diameter)
                 }
 
                 Row(
@@ -88,5 +89,12 @@ fun TireCard(
         }
         return this.toString()
     }
+
+fun PrintTireDimensions(width: Float, height: Float, diameter: Float) : String{
+    if(height == 0f){
+        return "${width.clean()} - ${diameter.clean()}"
+    }
+    return "${width.clean()}/${height.clean()}R${diameter.clean()}"
+}
 
 
