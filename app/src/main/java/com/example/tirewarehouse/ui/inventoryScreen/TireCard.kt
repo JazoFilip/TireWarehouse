@@ -1,6 +1,8 @@
 package com.example.tirewarehouse.ui.inventoryScreen
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +16,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -27,12 +33,21 @@ import com.example.tirewarehouse.ui.theme.SkyLightBlue
 
 @Composable
 fun TireCard(
-    tire: Tire
+    tire: Tire,
+    onApplyQuantity: (String, Int) -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
+
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .animateContentSize()
+            .clickable {expanded = !expanded},
         colors = CardDefaults.cardColors(containerColor = SkyLightBlue)
     ) {
+
+
+
         Row(
             modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -80,6 +95,12 @@ fun TireCard(
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(tire.quantity.toString(), fontSize = 20.sp)
+        }
+        if (expanded) {
+            QuantityControls { delta ->
+                onApplyQuantity(tire.id, delta)
+                expanded = false
+            }
         }
     }
 }

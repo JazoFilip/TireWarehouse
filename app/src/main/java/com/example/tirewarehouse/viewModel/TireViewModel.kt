@@ -93,6 +93,11 @@ class  TireViewModel() : ViewModel() {
             .sumOf { it.quantity }
     }
 
+    fun updateQuantity(tireId: String , delta:Int){
+        if (delta == 0) return
+        repository.updateTireQuantity(tireId, delta)
+    }
+
     private fun findMatchingTire(tires: List<Tire>): Tire? {
         return tires.firstOrNull {
             val width = _width.value?.toFloatOrNull()

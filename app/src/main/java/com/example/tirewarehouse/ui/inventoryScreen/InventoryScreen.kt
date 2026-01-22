@@ -70,7 +70,12 @@ fun InventoryScreen(
                     items = tires,
                     key = { it.id }
                 ) { tire ->
-                    TireCard(tire)
+                    TireCard(
+                        tire,
+                        onApplyQuantity = {id,delta ->
+                            viewModel.updateQuantity(id,delta)
+                        }
+                    )
                 }
             }
         }
