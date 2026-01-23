@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.tirewarehouse.viewModel.TireViewModel
 import androidx.compose.foundation.lazy.items
+import com.example.tirewarehouse.ui.components.DimensionInput
 
 
 @Composable
@@ -44,13 +45,13 @@ fun InventoryScreen(
                 DimensionInput(
                     label = "Width",
                     value = selectedWidth,
-                    onValueChange = {viewModel.setWidth(it) },
+                    onValueChange = { viewModel.setWidth(it) },
                     modifier = Modifier.weight(1f)
                 )
                 DimensionInput(
                     label = "Height",
                     value = selectedHeight,
-                    onValueChange = {viewModel.setHeight(it) },
+                    onValueChange = { viewModel.setHeight(it) },
                     modifier = Modifier.weight(1f)
                 )
                 DimensionInput(

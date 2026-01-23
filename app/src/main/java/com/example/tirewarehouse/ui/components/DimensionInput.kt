@@ -1,4 +1,4 @@
-package com.example.tirewarehouse.ui.inventoryScreen
+package com.example.tirewarehouse.ui.components
 
 
 
@@ -23,7 +23,6 @@ fun DimensionInput(
         shape = RoundedCornerShape(12.dp),
         value = value ?: "",
         onValueChange = { newValue ->
-            // Allow only digits and a single decimal point
             if (newValue.matches(Regex("""\d*\.?\d*"""))) {
                 onValueChange(newValue)
             }

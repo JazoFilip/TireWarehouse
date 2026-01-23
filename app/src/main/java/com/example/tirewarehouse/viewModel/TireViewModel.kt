@@ -51,15 +51,15 @@ class  TireViewModel() : ViewModel() {
 
             fun update() {
                 val list = tires.value ?: emptyList()
-                val w = _width.value?.toFloatOrNull()
-                val h = _height.value?.toFloatOrNull()
-                val d = _diameter.value?.toFloatOrNull()
+                val wText = _width.value.orEmpty()
+                val hText = _height.value.orEmpty()
+                val dText = _diameter.value.orEmpty()
 
                 value = list.filter { tire ->
                     (type == null || tire.type == type) &&
-                            (w == null || tire.width == w) &&
-                            (h == null || tire.height == h) &&
-                            (d == null || tire.diameter == d)
+                            (wText.isBlank() || tire.width.toString().startsWith(wText)) &&
+                            (hText.isBlank() || tire.height.toString().startsWith(hText)) &&
+                            (dText.isBlank() || tire.diameter.toString().startsWith(dText))
                 }
                     .sortedWith(
                         compareBy<Tire>(

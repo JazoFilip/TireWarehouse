@@ -3,9 +3,15 @@ package com.example.tirewarehouse.ui.inventoryScreen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,9 +20,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tirewarehouse.ui.theme.Green40
+import com.example.tirewarehouse.ui.theme.Purple40
+import com.example.tirewarehouse.ui.theme.Purple80
+import com.example.tirewarehouse.ui.theme.Red40
 
 @Composable
 fun QuantityControls(
@@ -38,34 +50,42 @@ fun QuantityControls(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            Text(
-                text = "−",
-                fontSize = 32.sp,
-                modifier = Modifier
-                    .clickable { selectedQuantity-- }
-                    .padding(8.dp)
-            )
+            Button(
+                onClick = { selectedQuantity-- },
+                shape = CircleShape,
+                colors = ButtonDefaults.buttonColors(containerColor = Red40),
+
+            ) {
+                Text(
+                    text = "−",
+                    fontSize = 26.sp,
+                )
+            }
 
             Text(
                 text = selectedQuantity.toString(),
                 fontSize = 22.sp
             )
 
-            Text(
-                text = "+",
-                fontSize = 32.sp,
-                modifier = Modifier
-                    .clickable { selectedQuantity++ }
-                    .padding(8.dp)
-            )
+            Button(
+                onClick = { selectedQuantity++ },
+                shape = CircleShape,
+                colors = ButtonDefaults.buttonColors(containerColor = Green40)
+            ) {
+                Text(
+                    text = "+",
+                    fontSize = 26.sp,
+                )
+            }
         }
 
-        androidx.compose.material3.Button(
+        Button(
             onClick = {
                 onClick(selectedQuantity)
                 selectedQuantity = 0
             },
-            enabled = selectedQuantity != 0
+            enabled = selectedQuantity != 0,
+            colors = ButtonDefaults.buttonColors(containerColor = Purple40)
         ) {
             Text("Apply")
         }
