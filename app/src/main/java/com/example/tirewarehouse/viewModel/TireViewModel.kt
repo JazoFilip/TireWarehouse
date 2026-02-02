@@ -45,7 +45,9 @@ class  TireViewModel() : ViewModel() {
     fun setLocation(value: Location?) { _location.value = value }
     fun setQuantity(value: Int?) {_quantity.value = value}
 
-
+    fun start(){
+        repository.start()
+    }
     fun getFilteredTires(type: String?): LiveData<List<Tire>> {
         return MediatorLiveData<List<Tire>>().apply {
 

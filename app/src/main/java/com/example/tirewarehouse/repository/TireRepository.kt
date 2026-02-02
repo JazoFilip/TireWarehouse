@@ -10,10 +10,10 @@ class TireRepository{
     private val db = FirebaseFirestore.getInstance()
     private val tiresRef = db.collection("tires")
 
-    var _tires = MutableLiveData<List<Tire>>()
+    private val _tires = MutableLiveData<List<Tire>>()
     val tires: LiveData<List<Tire>> = _tires
 
-    init {
+    fun start(){
         fetchDatabaseData()
     }
 
