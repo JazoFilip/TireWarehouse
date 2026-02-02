@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +23,8 @@ import com.example.tirewarehouse.data.enums.Brand
 import com.example.tirewarehouse.data.enums.Location
 import com.example.tirewarehouse.data.enums.Season
 import com.example.tirewarehouse.data.enums.TireType
-import com.example.tirewarehouse.ui.inventoryScreen.DimensionInput
+import com.example.tirewarehouse.ui.components.DimensionInput
+import com.example.tirewarehouse.ui.theme.Purple40
 import com.example.tirewarehouse.viewModel.TireViewModel
 
 @Composable
@@ -123,13 +125,15 @@ fun  AddTireScreen(
         ) {
             Button(
                 modifier = Modifier.weight(1f),
-                onClick = {viewModel.addOrIncreaseTire()}
+                onClick = {viewModel.addOrIncreaseTire()},
+                colors = ButtonDefaults.buttonColors(containerColor = Purple40)
             ) {
                 Text("Add Tire")
             }
             Button(
                 modifier = Modifier.weight(1f),
-                onClick = {viewModel.removeTire()}
+                onClick = {viewModel.removeTire()},
+                colors = ButtonDefaults.buttonColors(containerColor = Purple40)
             ) {
                 Text("Remove Tire")
             }

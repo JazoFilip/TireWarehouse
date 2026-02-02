@@ -99,7 +99,6 @@ fun TireCard(
         if (expanded) {
             QuantityControls { delta ->
                 onApplyQuantity(tire.id, delta)
-                expanded = false
             }
         }
     }
