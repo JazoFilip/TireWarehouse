@@ -55,7 +55,6 @@ class AddTireViewModel(private val tireRepository: TireRepository) : ViewModel()
             try {
                 val success = tireRepository.createTire(newTire)
                 if (success) {
-                    // RESET VALUES TO BLANK FOR CONTINUOUS ADDING
                     _uiState.value = AddTireUiState.Form()
                 } else {
                     _uiState.value = AddTireUiState.Failure("Greška: Neuspješno spremanje u bazu podataka.")

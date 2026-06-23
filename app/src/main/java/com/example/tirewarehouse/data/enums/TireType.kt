@@ -12,6 +12,6 @@ enum class TireType(@DrawableRes val imageRes: Int) {
     companion object {
         fun fromString(value: String): TireType =
             values().firstOrNull { it.name == value }
-                ?: CAR // default fallback
+                ?: CAR
     }
 }

@@ -50,8 +50,7 @@ class HomeViewModel(private val tireRepository: TireRepository) : ViewModel() {
             try {
                 tireRepository.refreshTires()
             } catch (e: Exception) {
-                // If local database flow is already listening, errors during refresh
-                // can either be ignored or explicitly passed to UI if critical.
+
             }
         }
     }

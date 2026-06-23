@@ -86,7 +86,7 @@ class InventoryViewModel(
 
             val newQuantity = currentEntity.quantity + delta
 
-            if (newQuantity < 0) return@launch // Double safety check
+            if (newQuantity < 0) return@launch
 
             if (newQuantity == 0) {
                 tireRepository.deleteTire(tireId)
