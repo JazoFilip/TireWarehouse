@@ -1,4 +1,4 @@
-package com.example.tirewarehouse.ui.components
+package com.example.tirewarehouse.ui.sharedComponents
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -14,22 +14,19 @@ import com.example.tirewarehouse.ui.theme.Yellow100
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun  TopBar(
-
-) {
+fun TopBar() {
     TopAppBar(
         title = {
             Text(
                 text = "Tire Warehouse",
                 fontWeight = FontWeight.Bold
-                )
-
+            )
         },
         actions = {
             IconButton(onClick = { }) {
                 Icon(
                     imageVector = Icons.Default.AccountCircle,
-                    contentDescription = "Localized description"
+                    contentDescription = "Account"
                 )
             }
         },

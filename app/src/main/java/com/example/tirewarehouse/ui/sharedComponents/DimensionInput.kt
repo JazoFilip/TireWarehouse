@@ -1,4 +1,4 @@
-package com.example.tirewarehouse.ui.components
+package com.example.tirewarehouse.ui.sharedComponents
 
 
 

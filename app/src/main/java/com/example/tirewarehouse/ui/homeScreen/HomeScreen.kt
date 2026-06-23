@@ -1,86 +1,101 @@
 package com.example.tirewarehouse.ui.homeScreen
 
-import InventoryCard
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tirewarehouse.R
+import com.example.tirewarehouse.data.enums.TireType
+import com.example.tirewarehouse.presentation.homeScreenViewModel.HomeUiState
+import com.example.tirewarehouse.ui.homeScreen.components.InventoryCard
+import com.example.tirewarehouse.ui.homeScreen.components.SummaryCard
 import com.example.tirewarehouse.ui.theme.Clear
 import com.example.tirewarehouse.ui.theme.SkyLightBlue
-import com.example.tirewarehouse.ui.theme.Yellow100
 import com.example.tirewarehouse.ui.theme.Yellow50
-import com.example.tirewarehouse.viewModel.TireViewModel
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.navigation.NavController
-import com.example.tirewarehouse.data.Tire
-import com.example.tirewarehouse.data.enums.TireType
-
 
 @Composable
 fun HomeScreen(
-    viewModel: TireViewModel,
-    navController: NavController
-){
-    val totalTires by viewModel.totalTires.observeAsState(0)
-    val totalCarTires by viewModel.totalCarTires.observeAsState(0)
-    val totalTractorTires by viewModel.totalTractorTires.observeAsState(0)
-    val totalTruckTires by viewModel.totalTruckTires.observeAsState(0)
-
+    uiState: HomeUiState,
+    onTireTypeClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Surface(
         shape = RoundedCornerShape(24.dp),
-        color = Color.White
+        color = Color.White,
+        modifier = modifier.fillMaxSize()
     ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            SummaryCard(R.drawable.wheel, totalTires.toString(), "Total in stock")
-            Text("Inventory", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            InventoryCard(
-                SkyLightBlue,
-                R.drawable.car,
-                "No. of car tires",
-                totalCarTires.toString(),
-                {navController.navigate("inventory?type=${TireType.CAR.name}") {
-                    launchSingleTop = true
+        when (uiState) {
+            is HomeUiState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
                 }
+            }
+            is HomeUiState.Error -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = uiState.message, color = Color.Red)
                 }
-            )
-            InventoryCard(
-                Yellow50,
-                R.drawable.tractor,
-                "No. of tractor tires",
-                totalTractorTires.toString(),
-                {navController.navigate("inventory?type=${TireType.TRACTOR.name}"){
-                    launchSingleTop = true
+            }
+            is HomeUiState.Success -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    SummaryCard(
+                        image = R.drawable.wheel,
+                        title = uiState.totalTires.toString(),
+                        subTitle = "Total in stock"
+                    )
+
+                    Text("Inventory", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+
+                    InventoryCard(
+                        color = SkyLightBlue,
+                        image = R.drawable.car,
+                        title = "No. of car tires",
+                        subtitle = uiState.totalCarTires.toString(),
+                        onClick = { onTireTypeClick(TireType.CAR.name) }
+                    )
+
+                    InventoryCard(
+                        color = Yellow50,
+                        image = R.drawable.tractor,
+                        title = "No. of tractor tires",
+                        subtitle = uiState.totalTractorTires.toString(),
+                        onClick = { onTireTypeClick(TireType.TRACTOR.name) }
+                    )
+
+                    InventoryCard(
+                        color = Clear,
+                        image = R.drawable.truck,
+                        title = "No. of truck tires",
+                        subtitle = uiState.totalTruckTires.toString(),
+                        onClick = { onTireTypeClick(TireType.TRUCK.name) }
+                    )
                 }
-                }
-            )
-            InventoryCard(
-                Clear,
-                R.drawable.truck,
-                "No. of truck tires",
-                totalTruckTires.toString(),
-                {navController.navigate("inventory?type=${TireType.TRUCK.name}"){
-                    launchSingleTop = true
-                }
-                }
-            )
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+package com.example.tirewarehouse.ui.homeScreen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -21,55 +22,49 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tirewarehouse.R
-import com.example.tirewarehouse.ui.theme.SkyLightBlue
 
 @Composable
 fun InventoryCard(
-    color: Color = SkyLightBlue,
-    image: Int = R.drawable.car,
-    title: String = "No. of tires",
-    subtitle: String = "500",
-    onClick: () -> Unit
-
-){
+    color: Color,
+    image: Int,
+    title: String,
+    subtitle: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Card(
-       colors = CardDefaults.cardColors(containerColor = color),
-        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = color),
+        modifier = modifier.fillMaxWidth(),
         onClick = onClick
     ) {
-        Row(
-
-        ){
+        Row {
             Column(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(title, fontWeight = FontWeight.Bold)
                 Text(subtitle, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-               Button(
+                Button(
                     onClick = onClick,
-                    enabled = true,
-                   colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.White)
                 ) {
                     Text("View Inventory", color = Color.Black)
-                    Icon(Icons.AutoMirrored.Filled.ArrowForward,"null", tint = Color.Black)
+                    Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, tint = Color.Black)
                 }
             }
-                Box(
-
-                    modifier = Modifier.fillMaxWidth()
-                        .height(100.dp)
-                ) {
-                    Image(
-                        painter = painterResource(image),
-                        contentDescription = "image1",
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+            ) {
+                Image(
+                    painter = painterResource(image),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
     }
 }
