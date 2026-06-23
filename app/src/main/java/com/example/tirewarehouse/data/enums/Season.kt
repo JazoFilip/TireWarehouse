@@ -7,7 +7,7 @@ enum class Season(@DrawableRes val imageRes: Int){
     SUMMER(R.drawable.summer),
     WINTER(R.drawable.winter),
     ALL_SEASON(R.drawable.all_season),
-    AGRICULTURAL(R.drawable.all_season);
+    AGRICULTURAL(R.drawable.agriculture);
 
     companion object{
         fun FromString(value: String): Season{

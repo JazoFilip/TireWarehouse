@@ -1,4 +1,4 @@
-package com.example.tirewarehouse.ui.inventoryScreen
+package com.example.tirewarehouse.ui.inventoryScreen.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
@@ -25,29 +25,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tirewarehouse.R
-import com.example.tirewarehouse.data.Tire
+import com.example.tirewarehouse.data.database.TireEntity
 import com.example.tirewarehouse.data.enums.Season
 import com.example.tirewarehouse.data.enums.TireType
 import com.example.tirewarehouse.ui.theme.SkyLightBlue
 
 @Composable
 fun TireCard(
-    tire: Tire,
-    onApplyQuantity: (String, Int) -> Unit
+    tire: TireEntity,
+    onApplyQuantity: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .animateContentSize()
-            .clickable {expanded = !expanded},
+            .clickable { expanded = !expanded },
         colors = CardDefaults.cardColors(containerColor = SkyLightBlue)
     ) {
-
-
-
         Row(
             modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -58,63 +55,59 @@ fun TireCard(
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
+                    val tireType = TireType.fromString(tire.type.orEmpty())
                     Box(
                         modifier = Modifier.size(24.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Image(
-                            painter = painterResource(TireType.fromString(tire.type).imageRes),
-                            contentDescription = "Inventory",
+                            painter = painterResource(tireType.imageRes),
+                            contentDescription = null,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
 
-                    Text(PrintTireDimensions(tire.width,tire.height,tire.diameter), fontSize = 20.sp)
-                    PrintTireDimensions(tire.width,tire.height,tire.diameter)
+                    Text(
+                        text = formatTireDimensions(tire.width, tire.height, tire.diameter),
+                        fontSize = 20.sp
+                    )
                 }
 
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
+                    Text(tire.brand.orEmpty(), fontSize = 20.sp)
 
-                    Text(tire.brand, fontSize = 20.sp)
-
+                    val season = Season.FromString(tire.season.orEmpty())
                     Box(
                         modifier = Modifier.size(24.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Image(
-                            painter = painterResource(Season.FromString(tire.season).imageRes),
-                            contentDescription = "season",
+                            painter = painterResource(season.imageRes),
+                            contentDescription = null,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
-
                 }
-                Text(tire.location, fontSize = 20.sp)
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(tire.quantity.toString(), fontSize = 20.sp)
         }
+
         if (expanded) {
-            QuantityControls { delta ->
-                onApplyQuantity(tire.id, delta)
+            QuantityControls(availableQuantity = tire.quantity) { delta ->
+                onApplyQuantity(delta)
+                expanded = false
             }
         }
     }
 }
-    fun Float.clean(): String {
-        if (this % 1.0 == 0.0) {
-            return this.toInt().toString()
-        }
-        return this.toString()
-    }
 
-fun PrintTireDimensions(width: Float, height: Float, diameter: Float) : String{
-    if(height == 0f){
-        return "${width.clean()} - ${diameter.clean()}"
+fun formatTireDimensions(width: String?, height: String?, diameter: String?): String {
+    if (width.isNullOrEmpty() || diameter.isNullOrEmpty()) return "Unknown size"
+    if (height.isNullOrEmpty() || height == "0") {
+        return "$width - $diameter"
     }
-    return "${width.clean()}/${height.clean()}R${diameter.clean()}"
+    return "$width/${height}R$diameter"
 }
-
-

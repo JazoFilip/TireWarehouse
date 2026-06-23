@@ -1,4 +1,4 @@
-package com.example.tirewarehouse.ui.addTireScreen
+package com.example.tirewarehouse.ui.addTireScreen.components
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -15,14 +15,14 @@ fun QuantityInput(
     value: Int?,
     onValueChange: (Int?) -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     OutlinedTextField(
         shape = RoundedCornerShape(12.dp),
         value = value?.toString() ?: "",
         onValueChange = {
             onValueChange(it.toIntOrNull())
         },
-        label = { Text (label) },
+        label = { Text(label) },
         singleLine = true,
         modifier = modifier,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
